@@ -12,6 +12,7 @@ services:
       - REPOSITORY = "github repository name"
       - OWNER = "owner/organization name"
       - BOT_TOKEN = "telegram bot token"
+      - CHAT_ID = "chat id"
     networks:
       - gh-bot-network
     ports:

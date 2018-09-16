@@ -13,6 +13,7 @@ export class PullRequestModel {
     public base: BrachInterface;
     public requested_reviewers: any[];
     public user: UserModel;
+    public html_url: string;
 
     constructor(params?) {
         Object.assign(this, params);
