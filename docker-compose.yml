@@ -6,13 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: gh-tg-bot
-    environment:
-      - CLIENT_ID = "gh client id xxxx"
-      - SECRET_ID = "gh client secret xxxx"
-      - REPOSITORY = "github repository name"
-      - OWNER = "owner/organization name"
-      - BOT_TOKEN = "telegram bot token"
-      - CHAT_ID = "chat id"
+    env_file:
+      - .env
     networks:
       - gh-bot-network
     ports:

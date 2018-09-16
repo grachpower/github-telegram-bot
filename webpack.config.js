@@ -1,4 +1,3 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -21,11 +20,7 @@ module.exports = {
         ]
     },
     node: {
-        fs: "empty"
-    },
-    optimization: {
-        minimizer: [
-            // new UglifyJsPlugin(),
-        ]
+        fs: "empty",
+        process: false,
     },
 };
