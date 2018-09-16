@@ -5,12 +5,12 @@ import { GithubApi } from './github-api/github-api';
 import { PullRequestModel } from './github-api/models/pull-request.model';
 import { TelegaApi } from './telegram-api/telegram-api';
 
-const clientId = process.env.CLIENT_ID || 'f886512117bd29a53157';
-const clientSecret = process.env.SECRET_ID || '94bb8b969439d4d88e6472568ee5dd1d7c1cf89f';
-const ghOwner = process.env.OWNER || 'grachpower';
-const repository = process.env.REPOSITORY || 'github-telegram-bot';
-const botToken = process.env.BOT_TOKEN || '677568548:AAGeMPyjKQoR7b2rNWW89tXMecUD7CNlMDg';
-const chatId = process.env.CHAT_ID || '160294069';
+const clientId = process.env.CLIENT_ID || null;
+const clientSecret = process.env.SECRET_ID || null;
+const ghOwner = process.env.OWNER || null;
+const repository = process.env.REPOSITORY || null;
+const botToken = process.env.BOT_TOKEN || null;
+const chatId = process.env.CHAT_ID || null;
 
 if (!clientId) {
     throw new Error('No github client ID defined');
@@ -30,6 +30,10 @@ if (!repository) {
 
 if (!botToken) {
     throw new Error('Bot token is not defined');
+}
+
+if (!chatId) {
+    throw new Error('Chat id is not defined');
 }
 
 const ghApi = new GithubApi(clientId, clientSecret);
