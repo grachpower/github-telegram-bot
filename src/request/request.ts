@@ -35,11 +35,11 @@ export interface RequestParams {
 export interface Response<T = any> extends AxiosResponse { }
 
 export class Http {
-    public static get<T>(request: string, params: RequestParams = {}): Observable<Response> {
+    public static get<T>(request: string, params: RequestParams = {}): Observable<T> {
         return Observable.create((observer: Observer<Response<T>>) => {
             axios.get<T>(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
             .then((response: Response) => {
-                observer.next(response);
+                observer.next(response.data);
                 observer.complete();
             })
             .catch((response: Response) => {
@@ -53,7 +53,7 @@ export class Http {
         return Observable.create((observer: Observer<Response<T>>) => {
             axios.post<T>(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
             .then((response: Response) => {
-                observer.next(response);
+                observer.next(response.data);
                 observer.complete();
             })
             .catch((response: Response) => {
@@ -67,7 +67,7 @@ export class Http {
         return Observable.create((observer: Observer<Response<T>>) => {
             axios.delete(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
             .then((response: Response) => {
-                observer.next(response);
+                observer.next(response.data);
                 observer.complete();
             })
             .catch((response: Response) => {
@@ -81,7 +81,21 @@ export class Http {
         return Observable.create((observer: Observer<Response<T>>) => {
             axios.put<T>(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
             .then((response: Response) => {
-                observer.next(response);
+                observer.next(response.data);
+                observer.complete();
+            })
+            .catch((response: Response) => {
+                observer.error(response);
+                observer.complete();
+            })
+        })
+    }
+
+    public static patch<T>(request: string, params: any = {}): Observable<T> {
+        return Observable.create((observer: Observer<Response<T>>) => {
+            axios.patch<T>(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
+            .then((response: Response) => {
+                observer.next(response.data);
                 observer.complete();
             })
             .catch((response: Response) => {

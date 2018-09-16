@@ -1,0 +1,19 @@
+version: '2'
+services:
+  gh-gt-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gh-tg-bot
+    environment:
+      - CLIENT_ID = "xxxx"
+      - SECRET_ID = "xxxx"
+      - REPOSITORY = "repository-name"
+      - OWNER = "repository owner/organization"
+    networks:
+      - gh-bot-network
+    ports:
+      - '8080:80'
+networks:
+  gh-bot-network:
+    driver: bridge
