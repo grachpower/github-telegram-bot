@@ -33,14 +33,14 @@ if (!botToken) {
 const ghApi = new GithubApi(clientId, clientSecret);
 const bot = new Telegraf(botToken);
 
+const PullRequests = [];
+
 timer(0, 5000)
     .pipe(
         switchMap(() => ghApi.getPullRequests(ghOwner, repository)),
-        catchError((err) => {
-            console.log(err);
-            return throwError(err);
-        }),
+        catchError((err) => throwError(err)),
     )
     .subscribe((res: any) => {
         console.log(res);
     });
+

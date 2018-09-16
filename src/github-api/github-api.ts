@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Http } from '../request/request';
 import { PullRequestModel } from './models/pull-request.model';
@@ -17,7 +18,10 @@ export class GithubApi {
                 client_id: this.clientId,
                 client_secret: this.clientSecret,
             }
-        });
+        })
+        .pipe(
+            map((data: PullRequestModel[]) => data.map(pr => new PullRequestModel(pr))),
+        );
     }
 
     public patchPullRequest(owner: string, repository, pullRequestNumber): Observable<PullRequestModel> {
@@ -26,6 +30,9 @@ export class GithubApi {
                 client_id: this.clientId,
                 client_secret: this.clientSecret,
             }
-        });
+        })
+        .pipe(
+            map((data: PullRequestModel) => new PullRequestModel(data)),
+        );;
     }
 }
