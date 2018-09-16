@@ -1,5 +1,6 @@
 import { PrStateTypes } from '../config/pr-state-types';
 import { BrachInterface } from './branch.model';
+import { UserModel } from './user.model';
 
 export class PullRequestModel {
     public id: number;
@@ -10,6 +11,8 @@ export class PullRequestModel {
     public body: string;
     public head: BrachInterface;
     public base: BrachInterface;
+    public requested_reviewers: any[];
+    public user: UserModel;
 
     constructor(params?) {
         Object.assign(this, params);
