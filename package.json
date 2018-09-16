@@ -1,0 +1,35 @@
+{
+  "name": "github-telegram-bot",
+  "version": "1.0.0",
+  "description": "github telegram review bot",
+  "main": "dist/index.js",
+  "scripts": {
+    "rimraf": "rimraf",
+    "clean:dist": "npm run rimraf -- dist",
+    "build": "npm run clean:dist && tsc",
+    "start": "ts-node ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grachpower/github-telegram-bot.git"
+  },
+  "keywords": [
+    "telegram",
+    "github",
+    "review"
+  ],
+  "author": "Artyom Andreev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/grachpower/github-telegram-bot/issues"
+  },
+  "homepage": "https://github.com/grachpower/github-telegram-bot#readme",
+  "dependencies": {
+    "@types/node": "^10.9.4",
+    "axios": "^0.18.0",
+    "core-js": "^2.5.7",
+    "rxjs": "^6.3.2",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.3"
+  }
+}
