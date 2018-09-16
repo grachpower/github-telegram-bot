@@ -43,4 +43,3 @@ timer(0, 5000)
     .subscribe((res: any) => {
         console.log(res);
     });
-
