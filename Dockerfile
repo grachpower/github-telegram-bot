@@ -1,13 +1,7 @@
 FROM node:10
 WORKDIR /app
-COPY . ./
+COPY . .
+
 RUN npm install
 RUN npm run build
-
-# —------------------------------------
-# Create final image
-# —------------------------------------
-FROM node:10
-WORKDIR /app
-COPY /dist .
-ENTRYPOINT node ./index.js $ARGS
+ENTRYPOINT node ./dist/index.js
