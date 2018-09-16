@@ -10,10 +10,12 @@ export class GithubApi {
     constructor(
         private clientId: string,
         private clientSecret: string,
+        private owner: string,
+        private repository: string,
     ) { }
 
-    public getPullRequests(owner: string, repository: string): Observable<PullRequestModel[]> {
-        return Http.get<PullRequestModel[]>(`${this.baseUrl}repos/${owner}/${repository}/pulls`, {
+    public getPullRequests(): Observable<PullRequestModel[]> {
+        return Http.get<PullRequestModel[]>(`${this.baseUrl}repos/${this.owner}/${this.repository}/pulls`, {
             params: {
                 client_id: this.clientId,
                 client_secret: this.clientSecret,
@@ -24,8 +26,8 @@ export class GithubApi {
         );
     }
 
-    public patchPullRequest(owner: string, repository, pullRequestNumber): Observable<PullRequestModel> {
-        return Http.patch(`${this.baseUrl}repos/${owner}/${repository}/pulls/${pullRequestNumber}`, {
+    public patchPullRequest(pullRequestNumber: string): Observable<PullRequestModel> {
+        return Http.patch(`${this.baseUrl}repos/${this.owner}/${this.repository}/pulls/${pullRequestNumber}`, {
             params: {
                 client_id: this.clientId,
                 client_secret: this.clientSecret,
@@ -33,6 +35,18 @@ export class GithubApi {
         })
         .pipe(
             map((data: PullRequestModel) => new PullRequestModel(data)),
-        );;
+        );
+    }
+
+    public getPullRequest(pullRequestNumber: number): Observable<PullRequestModel> {
+        return Http.get(`${this.baseUrl}repos/${this.owner}/${this.repository}/pulls/${pullRequestNumber}`, {
+            params: {
+                client_id: this.clientId,
+                client_secret: this.clientSecret,
+            }
+        })
+        .pipe(
+            map((data: PullRequestModel) => new PullRequestModel(data)),
+        );
     }
 }

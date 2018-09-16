@@ -5,12 +5,12 @@ import { GithubApi } from './github-api/github-api';
 import { PullRequestModel } from './github-api/models/pull-request.model';
 import { TelegaApi } from './telegram-api/telegram-api';
 
-const clientId = process.env.CLIENT_ID || null;
-const clientSecret = process.env.SECRET_ID || null;
-const ghOwner = process.env.OWNER || null;
-const repository = process.env.REPOSITORY || null;
-const botToken = process.env.BOT_TOKEN || null;
-const chatId = process.env.CHAT_ID || null;
+const clientId = process.env.CLIENT_ID || 'f886512117bd29a53157';
+const clientSecret = process.env.SECRET_ID || '94bb8b969439d4d88e6472568ee5dd1d7c1cf89f';
+const ghOwner = process.env.OWNER || 'grachpower';
+const repository = process.env.REPOSITORY || 'github-telegram-bot';
+const botToken = process.env.BOT_TOKEN || '677568548:AAGeMPyjKQoR7b2rNWW89tXMecUD7CNlMDg';
+const chatId = process.env.CHAT_ID || '160294069';
 
 if (!clientId) {
     throw new Error('No github client ID defined');
@@ -36,32 +36,46 @@ if (!chatId) {
     throw new Error('Chat id is not defined');
 }
 
-const ghApi = new GithubApi(clientId, clientSecret);
+const ghApi = new GithubApi(clientId, clientSecret, ghOwner, repository);
 const telegaApi = new TelegaApi(chatId, botToken);
 
 const pullRequests$ = new BehaviorSubject([]);
 
 timer(0, 10000)
     .pipe(
-        switchMap(() => ghApi.getPullRequests(ghOwner, repository)),
+        switchMap(() => ghApi.getPullRequests()),
         catchError((err) => throwError(err)),
         withLatestFrom(pullRequests$),
     )
     .subscribe(([newPRs, prevPRs]: [PullRequestModel[], PullRequestModel[]]) => {
-        const diff = comparePullRequests(prevPRs, newPRs);
-        console.log(newPRs);
+        const diffNew = compareNewPullRequests(prevPRs, newPRs);
+        const closedDiff = compareClosedPullRequests(prevPRs, newPRs);
 
-        diff.forEach((pr: PullRequestModel) => {
-            const message = `Pull request "${pr.title}" was created from "${pr.head.ref}" into "${pr.base.ref}" by "${pr.user.login}" \n ${pr.html_url}`;
+        diffNew.forEach((pr: PullRequestModel) => {
+            const message = `Pull request "#${pr.number} ${pr.title}" was created from "${pr.head.ref}" into "${pr.base.ref}" by "${pr.user.login}" \n ${pr.html_url}`;
             telegaApi.sendMessageToChat(message)
                 .subscribe();
         })
 
+        closedDiff.forEach((pr: PullRequestModel) => {
+            ghApi.getPullRequest(pr.number)
+                .pipe(
+                    switchMap((pr: PullRequestModel) => telegaApi.sendMessageToChat(`Pull request "#${pr.number} ${pr.title}" was closed, status ${pr.state} from "${pr.head.ref}" into "${pr.base.ref}" by "${pr.user.login}" \n ${pr.html_url}`)),
+                )
+                .subscribe();
+        });
+
         pullRequests$.next(newPRs);
     });
 
-function comparePullRequests(prevPullRequests: PullRequestModel[], currentRequests: PullRequestModel[]): PullRequestModel[] {
+function compareNewPullRequests(prevPullRequests: PullRequestModel[], currentRequests: PullRequestModel[]): PullRequestModel[] {
     return currentRequests
         .reduce((acc: PullRequestModel[], curr: PullRequestModel) => 
             prevPullRequests.find(pr => pr.id === curr.id) ? acc : [...acc, curr], []);
+}
+
+function compareClosedPullRequests(prevPullRequests: PullRequestModel[], currentRequests: PullRequestModel[]): PullRequestModel[] {
+    return prevPullRequests
+        .reduce((acc: PullRequestModel[], curr: PullRequestModel) => 
+            currentRequests.find(pr => pr.id === curr.id) ? acc : [...acc, curr], []);
 }
