@@ -52,7 +52,7 @@ timer(0, 10000)
         const closedDiff = compareClosedPullRequests(prevPRs, newPRs);
 
         diffNew.forEach((pr: PullRequestModel) => {
-            const message = `Pull request "#${pr.number} ${pr.title}" was created from "${pr.head.ref}" into "${pr.base.ref}" by "${pr.user.login}" \n ${pr.html_url}`;
+            const message = `Pull request #${pr.number} "${pr.title}" was created from "${pr.head.ref}" into "${pr.base.ref}" by "${pr.user.login}" \n ${pr.html_url}`;
             telegaApi.sendMessageToChat(message)
                 .subscribe();
         })
@@ -60,7 +60,8 @@ timer(0, 10000)
         closedDiff.forEach((pr: PullRequestModel) => {
             ghApi.getPullRequest(pr.number)
                 .pipe(
-                    switchMap((pr: PullRequestModel) => telegaApi.sendMessageToChat(`Pull request "#${pr.number} ${pr.title}" was closed, status ${pr.state} from "${pr.head.ref}" into "${pr.base.ref}" by "${pr.user.login}" \n ${pr.html_url}`)),
+                    switchMap((pr: PullRequestModel) => 
+                    telegaApi.sendMessageToChat(`Pull request #${pr.number} "${pr.title}" was ${pr.merged ? 'merged' : 'closed'} \n ${pr.html_url}`)),
                 )
                 .subscribe();
         });
