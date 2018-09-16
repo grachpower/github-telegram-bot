@@ -6,7 +6,7 @@
   "scripts": {
     "rimraf": "rimraf",
     "clean:dist": "npm run rimraf -- dist",
-    "build": "npm run clean:dist && tsc",
+    "build": "npm run clean:dist && webpack --config webpack.config.js",
     "start": "ts-node ./src/index.ts"
   },
   "repository": {
@@ -33,5 +33,11 @@
     "rxjs": "^6.3.2",
     "ts-node": "^7.0.1",
     "typescript": "^3.0.3"
+  },
+  "devDependencies": {
+    "ts-loader": "^5.1.1",
+    "uglifyjs-webpack-plugin": "^2.0.0",
+    "webpack": "^4.19.0",
+    "webpack-cli": "^3.1.0"
   }
 }

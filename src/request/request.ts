@@ -8,8 +8,6 @@ export enum HttpMethod {
     DELETE = 'delete',
 }
 
-export const defaultUserAgent = 'gh-review-bot';
-
 export interface RequestParams {
     url?: string;
     method?: string;
@@ -37,7 +35,7 @@ export interface Response<T = any> extends AxiosResponse { }
 export class Http {
     public static get<T>(request: string, params: RequestParams = {}): Observable<T> {
         return Observable.create((observer: Observer<Response<T>>) => {
-            axios.get<T>(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
+            axios.get<T>(request, params)
             .then((response: Response) => {
                 observer.next(response.data);
                 observer.complete();
@@ -51,7 +49,7 @@ export class Http {
 
     public static post<T>(request: string, params: any = {}): Observable<T> {
         return Observable.create((observer: Observer<Response<T>>) => {
-            axios.post<T>(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
+            axios.post<T>(request, params)
             .then((response: Response) => {
                 observer.next(response.data);
                 observer.complete();
@@ -65,7 +63,7 @@ export class Http {
 
     public static delete<T>(request: string, params: any = {}): Observable<T> {
         return Observable.create((observer: Observer<Response<T>>) => {
-            axios.delete(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
+            axios.delete(request, params)
             .then((response: Response) => {
                 observer.next(response.data);
                 observer.complete();
@@ -79,7 +77,7 @@ export class Http {
 
     public static put<T>(request: string, params: any = {}): Observable<T> {
         return Observable.create((observer: Observer<Response<T>>) => {
-            axios.put<T>(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
+            axios.put<T>(request, params)
             .then((response: Response) => {
                 observer.next(response.data);
                 observer.complete();
@@ -93,7 +91,7 @@ export class Http {
 
     public static patch<T>(request: string, params: any = {}): Observable<T> {
         return Observable.create((observer: Observer<Response<T>>) => {
-            axios.patch<T>(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
+            axios.patch<T>(request, params)
             .then((response: Response) => {
                 observer.next(response.data);
                 observer.complete();
