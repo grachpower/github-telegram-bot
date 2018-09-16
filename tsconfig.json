@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "target": "es6",
-      "module": "system",
+      "module": "commonjs",
       "moduleResolution": "node",
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
@@ -13,7 +13,7 @@
       "importHelpers": true,
       "strictNullChecks": false,
       "alwaysStrict": true,
-      "outFile": "dist/index.js",
+      "outDir": "dist",
       "lib": [
         "es2017"
       ],

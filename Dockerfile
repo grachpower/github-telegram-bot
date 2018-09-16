@@ -9,5 +9,5 @@ RUN npm run build
 # —------------------------------------
 FROM node:10
 WORKDIR /app
-COPY /app/dist .
+COPY /dist .
 ENTRYPOINT node ./index.js $ARGS

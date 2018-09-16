@@ -1,5 +1,6 @@
-import { Http } from 'request/request';
 import { Observable } from 'rxjs';
+
+import { Http } from '../request/request';
 import { PullRequestModel } from './models/pull-request.model';
 
 export class GithubApi {
