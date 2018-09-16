@@ -9,4 +9,6 @@ export class PullRequestModel {
     @prop public state: PrStateTypes;
     @prop public title: string;
     @prop public body: string;
+    @prop public head: string;
+    @prop public base: string;
 }

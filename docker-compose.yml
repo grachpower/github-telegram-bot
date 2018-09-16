@@ -6,14 +6,14 @@ services:
       dockerfile: Dockerfile
     container_name: gh-tg-bot
     environment:
-      - CLIENT_ID: '0000000000' # github client id
-      - SECRET_ID: '0000000000' # github secret id
-      - REPOSITORY: 'repository-name' # your repository name
-      - OWNER: 'owner' # repository owner/organization
+      - CLIENT_ID = "xxxx"
+      - SECRET_ID = "xxxx"
+      - REPOSITORY = "repository-name"
+      - OWNER = "repository owner/organization"
     networks:
-      - api
+      - gh-bot-network
     ports:
       - '8080:80'
 networks:
-  api:
+  gh-bot-network:
     driver: bridge

@@ -90,4 +90,18 @@ export class Http {
             })
         })
     }
+
+    public static patch<T>(request: string, params: any = {}): Observable<T> {
+        return Observable.create((observer: Observer<Response<T>>) => {
+            axios.patch<T>(request, {httpAgent: defaultUserAgent, httpsAgent: defaultUserAgent, ...params})
+            .then((response: Response) => {
+                observer.next(response.data);
+                observer.complete();
+            })
+            .catch((response: Response) => {
+                observer.error(response);
+                observer.complete();
+            })
+        })
+    }
 }
