@@ -14,6 +14,7 @@ export class PullRequestModel {
     public requested_reviewers: any[];
     public user: UserModel;
     public html_url: string;
+    public merged: boolean;
 
     constructor(params?) {
         Object.assign(this, params);
