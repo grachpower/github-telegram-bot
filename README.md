@@ -4,11 +4,8 @@ Telegram bot with github integration. Pullrequests watcher
 
 ## Usage:
 
-install docker
-
-```
-https://github.com/grachpower/github-telegram-bot.git
-```
+* install docker
+* clone repository `https://github.com/grachpower/github-telegram-bot.git`
 
 ### Sample Pipeline Configuration:
 
